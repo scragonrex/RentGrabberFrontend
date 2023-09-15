@@ -1,0 +1,18 @@
+.formContainer form {
+    margin-top: 0rem;
+}
+
+@media only screen and (max-width: 600px)
+{
+    
+    .formContainer{
+        max-width:78vw;
+    }
+}
+
+.passwordIcon{
+    position: absolute;
+    cursor: pointer;
+    top: 54%;
+    right: 3%;
+}
