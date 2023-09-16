@@ -6,15 +6,15 @@ import { Alert, CircularProgress, Snackbar, useMediaQuery } from '@mui/material'
 import { VisibilityOffRounded, VisibilityRounded } from '@mui/icons-material';
 
 const Login = () => {
-    const url = useSelector((state)=>state.auth.url);
-    const mobileView = useMediaQuery('(max-width:600px)');
+    const url = useSelector((state) => state.auth.url);
+    const mobileView = useMediaQuery('(max-width:720px)');
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [hidePassword, setHidePassword] = useState(true);
-
+    const [userType, setUserType] = useState('student');
     //-------------------Alert----------------------------//
     const [alert, setAlert] = useState({ open: false, message: "" });
     const handleAlertClose = (event, reason) => {
@@ -30,7 +30,7 @@ const Login = () => {
         e.preventDefault();
         console.log("logging")
         setIsLoading(true);
-        const response = await fetch(`${url}/student/login`,
+        const response = await fetch(`${url}/${userType}/login`,
             {
                 method: "POST",
                 body: JSON.stringify({ email, password }),
@@ -51,7 +51,10 @@ const Login = () => {
                     token: loggedIn.token,
                 })
             )
-            navigate('/');
+            if (userType === "teacher")
+                navigate('/teacher/profile');
+            else
+                navigate('/');
         }
     }
 
@@ -59,7 +62,7 @@ const Login = () => {
         if (e.target.value === "")
             setAlert({ open: true, message: "Email required" })
         else {
-             // eslint-disable-next-line
+            // eslint-disable-next-line
             let regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
             if (!regex.test(e.target.value)) {
                 setAlert({ open: true, message: "Invalid email" })
@@ -74,9 +77,15 @@ const Login = () => {
                     {alert.message}
                 </Alert>
             </Snackbar>
-           
+
             <div className="formContainer ">
-                <h1 className={`font-white ${mobileView ? "font-paraer" : "font-4"}`}>Login Here!</h1>
+                <div className="display-flex-row gap-3">
+                <h1 className={`font-white ${mobileView ? "font-para" : "font-heading"}`}>Login as</h1>
+                <div className="display-flex-row gap-2">
+                    <div className={`userTag font-white font-subHeading ${userType === "student" && "active"}`} onClick={() => setUserType('student')}>Student</div>
+                    <div className={`userTag font-white font-subHeading ${userType === "teacher" && "active"}`} onClick={() => setUserType('teacher')}>Teacher</div>
+                </div>
+                </div>
                 <form onSubmit={login}>
                     <div className='display-flex-col'>
                         <label htmlFor="" className="font-white">Email</label>

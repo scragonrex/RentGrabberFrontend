@@ -44,8 +44,8 @@ const Navbar = () => {
       {mobileView ? "" : <div className="links">
         <ul className='font-green'>
           <li className={`font-para ${location.pathname==="/" && "active"}`} onClick={() => navigate('/')}> Home</li>
-          <li className={`font-para ${location.pathname==="/workout" && "active"}`}  onClick={() => navigate('/student')}>Student</li>
-          {user && <button className='btn' onClick={handleLogout}>Logout</button>}
+          <li className={`font-para ${location.pathname==="/workout" && "active"}`}  onClick={() => navigate('/student/profile')}>Profile</li>
+          {user ? <button className='btn' onClick={handleLogout}>Logout</button> : <button className='btn' onClick={() => navigate('/login')}>Sign in</button>}
         </ul>
       </div>}
     </div>

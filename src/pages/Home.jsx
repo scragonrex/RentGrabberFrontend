@@ -16,7 +16,7 @@ const Home = () => {
         </div>
       </div>
       <div className="coursesCont">
-        <p className="font-heading font-bold">Explore Courses by Category</p>
+        <p className="font-heading font-bold">Explore Teachers by Category</p>
         <div className='display-flex-row flexWrap justify-content-between margin-top-2'>
           <CourseMiniCard/>
           <CourseMiniCard/>

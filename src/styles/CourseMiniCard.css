@@ -6,6 +6,11 @@
     box-shadow: 0 2px 4px 1px black;
     max-width: 10rem;
     gap: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.miniCard:hover{
+    box-shadow: 0 0px 2px 0px black;
 }
 .miniCard svg{
     font-size: 1.5rem;

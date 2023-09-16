@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
 import { VisibilityOffRounded, VisibilityRounded } from '@mui/icons-material'
-import { Alert, CircularProgress, Snackbar, } from '@mui/material'
+import { Alert, CircularProgress, Snackbar, useMediaQuery, } from '@mui/material'
 import { useNavigate } from 'react-router'
 import { useSelector } from 'react-redux'
 const SignUp = () => {
+  const mobileView = useMediaQuery('(max-width:720px)');
   const url = useSelector((state)=>state.auth.url);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [hidePassword, setHidePassword] = useState(true);
   const [user, setUser] = useState({ name: "", email: "", password: "" });
-
+  const [userType, setUserType] = useState('student');
   //-------------------Alert----------------------------//
   const [alert, setAlert] = useState({ open: false, message: "" });
   const handleAlertClose = (event, reason) => {
@@ -35,10 +36,8 @@ const SignUp = () => {
   const register = async (e) => {
     e.preventDefault();
     console.log("user", user);
-    // const url = "http://localhost:5000/auth/signup";
-    // const url = "https://gymesh-backend.onrender.com/auth/signup";
     setIsLoading(true);
-    const response = await fetch(`${url}/student/signup`,
+    const response = await fetch(`${url}/${userType}/signup`,
       {
         method: "POST",
         body: JSON.stringify(user),
@@ -63,7 +62,13 @@ const SignUp = () => {
         </Alert>
       </Snackbar>
       <div className="formContainer ">
-        <h1 className="font-white ">Register Here First!</h1>
+      <div className="display-flex-row gap-3">
+                <h1 className={`font-white ${mobileView ? "font-para" : "font-heading"}`}>Register as</h1>
+                <div className="display-flex-row gap-2">
+                    <div className={`userTag font-white font-subHeading ${userType === "student" && "active"}`} onClick={() => setUserType('student')}>Student</div>
+                    <div className={`userTag font-white font-subHeading ${userType === "teacher" && "active"}`} onClick={() => setUserType('teacher')}>Teacher</div>
+                </div>
+                </div>
         <form onSubmit={register}>
 
           <div className='display-flex-col'>
