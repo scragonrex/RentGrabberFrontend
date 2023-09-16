@@ -1,0 +1,12 @@
+.miniCard{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0.5rem;
+    box-shadow: 0 2px 4px 1px black;
+    max-width: 10rem;
+    gap: 1rem;
+}
+.miniCard svg{
+    font-size: 1.5rem;
+}

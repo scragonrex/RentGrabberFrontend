@@ -1,0 +1,16 @@
+.Home{
+    padding: 5rem 4rem 0 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+}
+.landingCont{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    gap: 2rem;
+    align-items: center;
+}
+.landingCont>img{
+    width: 45%;
+}

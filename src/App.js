@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
+import Navbar from "./components/Navbar";
 
 const router = createBrowserRouter([ 
   { path: "*", Component: Root },
@@ -24,7 +25,7 @@ function Root() {
   // const mobileView = useMediaQuery('(max-width:720px)');
   return (
     <>
-   
+    <Navbar/>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />

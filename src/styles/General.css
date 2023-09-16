@@ -55,12 +55,12 @@
 }
 
 /* -------------------------------Fonts----------------------------------- */
-.font-heading
-{
-    font-family: 'Oswald', sans-serif;
-}
+
 .font-0{
 font-size: 0.8rem;
+}
+.font-small{
+    font-size: 0.8rem;
 }
 .font-para{
     font-size: 1rem;
@@ -103,7 +103,6 @@ font-size: 0.8rem;
 .font-white-para{
     color: white;
 }
-
 .font-bold {
     font-weight: bold;
 }
@@ -126,6 +125,7 @@ font-size: 0.8rem;
         font-size: 2rem;
         text-align: center;
     }
+ 
     .font-para{
         font-size: 0.8rem;
     }
@@ -182,6 +182,12 @@ font-size: 0.8rem;
 }
 .justify-content-center{
     justify-content: center;
+}
+.justify-content-around{
+    justify-content: space-around;
+}
+.justify-content-evenly{
+    justify-content: space-evenly;
 }
 .align-item-center{
     align-items: center;

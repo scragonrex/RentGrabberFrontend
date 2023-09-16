@@ -1,0 +1,93 @@
+.navbarContainer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 5rem 0.3rem 5rem;
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transition: background-color 0.3s ease, backdrop-filter 0.3s ease; /* Add transitions for smooth effect */
+    backdrop-filter: blur(0); /* Initial blur value when not scrolled */
+    z-index: 1000;
+}
+.navbarContainer.blur {
+    backdrop-filter: blur(10px); 
+    box-shadow: 0 2px 9px 0px black;
+  }
+.logoCont{
+    display: flex;
+    flex-direction: row;
+    gap: 0.5em;
+    align-items: center;
+    cursor: pointer;
+}
+.imgLogo{
+    width: 3em;
+}
+
+.imgLogo img{
+    width: inherit;
+}
+
+.links ul{
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    margin: 0;
+}
+
+.links ul li{
+    display: inline;
+    cursor: pointer;
+    transition: 0.3s;
+    padding: 0.5rem;
+}
+
+.links ul li:hover{
+    background-color: #06cf6a;
+    color: black;
+    border-radius: 5px;
+}
+.links li.active{
+    background-color: #06cf6a;
+    color: black;
+    border-radius: 5px;
+}
+
+@media only screen and (max-width: 730px)
+{
+    .navbarContainer{
+        padding: 1rem 1rem;
+        justify-content: center;
+    }
+}
+/*------------------Bottom navbar for mobile screens---------------------------------*/
+.bottomNav{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    color: white;
+    justify-content: space-around;
+    z-index: 5;
+    backdrop-filter: blur(10px);
+    box-shadow: 1px 0 17px 6px black;
+}
+.tabs{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    align-items: center;
+    padding: 0.5rem;
+
+}
+.tabs.active{
+    background-color: #06cf6a;
+    color: black;
+    border-radius: 10px 10px 0 0;
+}
