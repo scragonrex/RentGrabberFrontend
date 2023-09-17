@@ -27,7 +27,7 @@ function Root() {
   // const mobileView = useMediaQuery('(max-width:720px)');
   return (
     <>
-    <Navbar/>
+    {location.pathname!=='/teacher/profile' && <Navbar/>}
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
