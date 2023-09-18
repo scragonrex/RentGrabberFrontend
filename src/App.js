@@ -13,6 +13,7 @@ import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import SProfile from "./pages/SProfile";
 import TProfile from "./pages/TProfile";
+import Map from "./pages/Map";
 
 const router = createBrowserRouter([ 
   { path: "*", Component: Root },
@@ -22,7 +23,7 @@ export default function App() {
 }
 function Root() {
   // const isAuth = Boolean(useSelector(state=>state.auth.token));
-  // const isAuth=true;
+  const isAuth=true;
   const location = useLocation();
   // const mobileView = useMediaQuery('(max-width:720px)');
   return (
@@ -34,6 +35,7 @@ function Root() {
           <Route path='/signup' element={<SignUp/>} />
           <Route path='/student/profile' element={<SProfile/>} />
           <Route path='/teacher/profile' element={<TProfile/>} />
+          <Route path='/student/map' element={<Map/>} />
         </Routes>
     </>
   ); 
