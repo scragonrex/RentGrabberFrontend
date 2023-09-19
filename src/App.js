@@ -37,6 +37,6 @@ function Root() {
           <Route path='/teacher/profile' element={<TProfile/>} />
           <Route path='/student/map' element={<Map/>} />
         </Routes>
-    </>
+    </> 
   ); 
 }
