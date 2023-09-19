@@ -16,7 +16,21 @@ const TProfile = () => {
   const [categoryValue, setCategoryValue] = useState();
   const [classValue, setClassValue] = useState(1);
   const [courseName, setCourseName] = useState();
+  const [degree, setDegree] = useState();
+  const [longitude, setLongitude] = useState();
+  const [latitude, setLatitude] = useState();
 
+  const handleEditProfile = async()=>{
+    console.log(degree, longitude, latitude);
+    const response = await fetch(`${url}/teacher/editProfile/${user._id}`,
+    {
+      method:"POST",
+      body:JSON.stringify({degree, latitude, longitude}),
+      headers:{Authorization:`Bearer ${token}`, "Content-type":"application/json"}
+    });
+
+    const data = response.json();
+  }
   const handleCourseSubmit = async()=>{
     console.log(courseName, classValue, categoryValue);
     console.log(user, token);
@@ -27,8 +41,8 @@ const TProfile = () => {
       headers:{Authorization:`Bearer ${token}`, "Content-type":"application/json"}
     });
 
+    setModalOpen(false);
     const data = await response.json();
-    
   }
   const handleCategoryChange = (e)=>{
    setCategoryValue(e);
@@ -59,6 +73,10 @@ const TProfile = () => {
         </div>
         <div className="addBtn" >
         <AddCircle onClick={()=>setModalOpen(true)} sx={{ color: "rgb(6, 207, 106)", fontSize: "4rem" }}/>
+        <div className="formContainer margin-top-2" >
+          <input type="text" className="inputCont" placeholder='Degree' value={degree} onChange={(e)=>e.target.value}/>
+          <button className="btn" onClick={handleEditProfile}>Submit</button>
+        </div>
         <Modal
         open={modalOpen}
         onClose={()=>setModalOpen(false)}>
