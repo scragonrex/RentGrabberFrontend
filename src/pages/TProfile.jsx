@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../styles/TProfile.css'
 import { AddCircle } from '@mui/icons-material';
 import { Box, Modal, useMediaQuery } from '@mui/material';
@@ -17,10 +17,10 @@ const TProfile = () => {
   const [classValue, setClassValue] = useState(1);
   const [courseName, setCourseName] = useState();
   const [degree, setDegree] = useState();
-  const [longitude, setLongitude] = useState();
-  const [latitude, setLatitude] = useState();
+  const [latitude,setLatitude]=useState(0);
+  const [longitude,setLongitude]=useState(0);
 
-  const handleEditProfile = async()=>{
+  const handleEditProfile = async()=>{   
     console.log(degree, longitude, latitude);
     const response = await fetch(`${url}/teacher/editProfile/${user._id}`,
     {
@@ -29,7 +29,7 @@ const TProfile = () => {
       headers:{Authorization:`Bearer ${token}`, "Content-type":"application/json"}
     });
 
-    const data = response.json();
+    const data = response.json(); 
   }
   const handleCourseSubmit = async()=>{
     console.log(courseName, classValue, categoryValue);
@@ -55,6 +55,25 @@ const TProfile = () => {
     setCourseName(e.target.value)
   }
 
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(success, error);
+    } else {
+      console.log("Geolocation not supported");
+    }
+    
+    function success(position) {
+      setLatitude(position.coords.latitude);
+      setLongitude(position.coords.longitude);
+      console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+    }
+    
+    function error() {
+      console.log("Unable to retrieve your location");
+    }  
+  }, [])
+  
+
   return (
     <div className='tProfile'>
       <div className="sidebar">
@@ -74,7 +93,7 @@ const TProfile = () => {
         <div className="addBtn" >
         <AddCircle onClick={()=>setModalOpen(true)} sx={{ color: "rgb(6, 207, 106)", fontSize: "4rem" }}/>
         <div className="formContainer margin-top-2" >
-          <input type="text" className="inputCont" placeholder='Degree' value={degree} onChange={(e)=>e.target.value}/>
+          <input type="text" className="inputCont" placeholder='Degree' value={degree} onChange={(e)=>setDegree(e.target.value)}/>
           <button className="btn" onClick={handleEditProfile}>Submit</button>
         </div>
         <Modal
