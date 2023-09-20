@@ -11,6 +11,7 @@ import { setTeachers } from "../store/authSlice";
 const ViewTeacher = ({defaultCategory}) => {
   const url = useSelector((state) => state.auth.url);
   const token = useSelector((state) => state.auth.token);
+  const courses = useSelector((state) => state.auth.courses);
   const teachersList = useSelector((state) => state.auth.teachers);
   const dispatch = useDispatch();
 
@@ -18,6 +19,7 @@ const ViewTeacher = ({defaultCategory}) => {
   const [longitude, setLongitude] = useState(79.0882);
   const [locationList, setLocationList] = useState([]);
   const [filteredlocation, setFilteredlocation] = useState([]);
+  const [filteredCategory, setFilteredCategory] = useState(defaultCategory);
 
   const customIcon = new Icon({
     iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
@@ -25,15 +27,32 @@ const ViewTeacher = ({defaultCategory}) => {
   });
 
   const getTeacherLocation = async () => {
-    const response = await fetch(`${url}/student/getLocation`,
+    const response = await fetch(`${url}/teacher/getTeachers`,
       {
         method: "GET",
         headers: { Authorization: `Bearer ${token}`, "Content-type": "application/json" }
       });
 
     const data = await response.json();
-    dispatch(setTeachers(data));
-    setLocationList(data.locations)
+    console.log("courses",courses)
+    dispatch(setTeachers(data.teacherArray));
+    setLocationList(data.locations);
+    const filteredTeachers = courses.filter((item)=>{
+      if(item.category===filteredCategory)
+      return item.teacher
+    });
+    console.log("filteredTeachers",filteredTeachers);
+    const test = data.teacherArray.map((item)=>(item.id))
+    console.log("teacherArray",test);
+    const locations =[];
+    filteredTeachers?.forEach((item) => {
+      if(test.includes(item._id))
+      {
+        console.log("name",item.name)
+        locations.push({longitude:item.longitude, latitude:item.latitude})}
+    });
+    console.log("locations",locations);
+
   }
   useEffect(() => {
     getTeacherLocation();
