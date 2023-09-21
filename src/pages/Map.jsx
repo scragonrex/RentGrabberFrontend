@@ -2,18 +2,34 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet"
 import { Icon } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "../styles/map.css"
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-
-
 
 const Map = () => {
   const url = useSelector((state) => state.auth.url);
   const token = useSelector((state) => state.auth.token);
-
-  const [latitude, setLatitude] = useState(21.1458);
-  const [longitude, setLongitude] = useState(79.0882);
+  const [center, setCenter] = useState();
+  const [pos, setPos] = useState()
   const [locationList, setLocationList] = useState([])
+  const [draggable, setDraggable] = useState(false)
+  const markerRef = useRef(null)
+
+  const eventHandlers = useMemo(
+    () => ({
+      dragend() {
+        const marker = markerRef.current
+        if (marker != null) {
+          setPos(marker.getLatLng())
+        }
+      },
+    }),
+    [],
+  )
+  const toggleDraggable = useCallback(() => {
+    setDraggable((d) => !d)
+  }, [])
+
+
   const customIcon = new Icon({
     iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
     iconSize: [38, 38] // size of the icon
@@ -29,6 +45,7 @@ const Map = () => {
     const data = await response.json();
     setLocationList(data.locations)
   }
+
   useEffect(() => {
     getTeacherLocation();
     if (navigator.geolocation) {
@@ -38,9 +55,10 @@ const Map = () => {
     }
 
     function success(position) {
-      setLatitude(position.coords.latitude);
-      setLongitude(position.coords.longitude);
-      console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+      setPos({
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      })
     }
 
     function error() {
@@ -48,29 +66,30 @@ const Map = () => {
     }
   }, [])
 
+  console.log(pos);
+
   return (
     <div>
-      <MapContainer center={[latitude, longitude]} zoom={13}>
+      {pos && <MapContainer center={pos} zoom={13}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+          url="https://www.google.cn/maps/vt?lyrs=m@189&gl=cn&x={x}&y={y}&z={z}"
         />
-        <Marker position={[latitude, longitude]} icon={customIcon}>
-          <Popup>Current Location</Popup>
+        <Marker
+          draggable={draggable}
+          eventHandlers={eventHandlers}
+          position={pos}
+          ref={markerRef}
+          icon={customIcon}>
+          <Popup minWidth={90}>
+            <span onClick={toggleDraggable}>
+              {draggable
+                ? 'Marker is draggable'
+                : 'Click here to make marker draggable'}
+            </span>
+          </Popup>
         </Marker>
-        {
-          locationList?.length > 0 && locationList.map((item, key) => {
-            const lat = Object?.values(item.latitude);
-            const lon = Object?.values(item.longitude);
-            console.log("lattitute",lat)
-            console.log("longitude",lon)
-            return(
-            <Marker position={[lat[0],lon[0]]} icon={customIcon}>
-              <Popup>teacher Location</Popup>
-            </Marker>)})
-          }
-          
-      </MapContainer>
+      </MapContainer>}
     </div>
   )
 }
