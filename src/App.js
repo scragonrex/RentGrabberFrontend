@@ -35,7 +35,7 @@ function Root() {
           <Route path='/signup' element={<SignUp/>} />
           <Route path='/student/profile' element={<SProfile/>} />
           <Route path='/teacher/profile' element={<TProfile/>} />
-          {/* <Route path='/student/viewTeachers' element={<ViewTeacher/>} /> */}
+           <Route path='/student/map' element={<ViewTeacher/>} /> 
         </Routes>
     </> 
   ); 
