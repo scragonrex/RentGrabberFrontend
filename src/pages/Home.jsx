@@ -1,7 +1,39 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import  "../styles/Home.css"
 import CourseMiniCard from '../components/CourseMiniCard'
+import { useDispatch, useSelector } from "react-redux";
+import { setCourses } from '../store/authSlice';
+import ViewTeacher from './ViewTeachers';
 const Home = () => {
+  const url = useSelector((state)=>state.auth.url); 
+  const token = useSelector((state)=>state.auth.token);
+  const dispatch = useDispatch();
+  const [categoryList, setCategoryList] = useState([]);
+  const [categoryValue, setCategoryValue] = useState();
+
+  const getCourses = async()=>{
+    const response = await fetch(`${url}/course/getCourses`,{
+      method:"GET",
+      headers:{Authorization:`Bearer ${token}`, "Content-type":"application/json"}
+    });
+    const data = await response.json();
+    //Retrieving categories(unique) from courses
+    const temp =  data.courses?.map((item)=>item.category);
+    const categories = [...new Set(temp)]
+    setCategoryList(categories);
+    dispatch(setCourses({
+      courses:data.courses,
+      categories:categories
+    }))
+  }
+
+  const handleCategory = (item)=>{
+    setCategoryValue(item)
+  }
+  useEffect(()=>{
+    getCourses(); 
+  },[]);
+
   return (
     <div className='Home'>
       <div className="landingCont">
@@ -18,12 +50,18 @@ const Home = () => {
       <div className="coursesCont">
         <p className="font-heading font-bold">Explore Teachers by Category</p>
         <div className='display-flex-row flexWrap justify-content-between margin-top-2'>
-          <CourseMiniCard/>
-          <CourseMiniCard/>
-          <CourseMiniCard/>
-          <CourseMiniCard/>
-          <CourseMiniCard/>
+          {
+            categoryList?.length>0 && categoryList.map((item,key)=>(
+              <div onClick={()=>handleCategory(item)}>
+                <CourseMiniCard id={key} name={item} />
+              </div>
+            ))
+          }
         </div>
+        {categoryValue && <button className="btn margin-top-1" onClick={()=>setCategoryValue('')}>Collapse</button>}
+      <div className="viewTeacher">
+        {categoryValue && <ViewTeacher defaultCategory={categoryValue}/>}
+      </div>
       </div>
     </div>
   )

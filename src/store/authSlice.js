@@ -4,6 +4,9 @@ const initialState = {
     user:null,
     token:null,
     url:"http://localhost:5000",
+    courses:[],
+    categories:[],
+    teachers:[]
 }
 
 export const authSlice = createSlice({
@@ -13,15 +16,21 @@ export const authSlice = createSlice({
         setLogin : (state,action)=>{
             state.user = action.payload.user;
             state.token = action.payload.token;
-            state.score = action.payload.user.score;
         },
         setLogout : (state,action)=>{
             state.user = null;
             state.token = null;
         },
+        setCourses : (state,action)=>{
+            state.courses = action.payload.courses;
+            state.categories = action.payload.categories;
+        },
+        setTeachers : (state,action)=>{
+            state.teachers = action.payload;
+        }
      
     }
 })
-
-export const { setLogin, setLogout} = authSlice.actions;
+ 
+export const { setLogin, setLogout, setCourses, setTeachers} = authSlice.actions;
 export default authSlice.reducer;

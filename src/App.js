@@ -13,7 +13,7 @@ import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import SProfile from "./pages/SProfile";
 import TProfile from "./pages/TProfile";
-import Map from "./pages/Map";
+import ViewTeacher from "./pages/ViewTeachers";
 
 const router = createBrowserRouter([ 
   { path: "*", Component: Root },
@@ -35,7 +35,7 @@ function Root() {
           <Route path='/signup' element={<SignUp/>} />
           <Route path='/student/profile' element={<SProfile/>} />
           <Route path='/teacher/profile' element={<TProfile/>} />
-          <Route path='/student/map' element={<Map/>} />
+          {/* <Route path='/student/viewTeachers' element={<ViewTeacher/>} /> */}
         </Routes>
     </> 
   ); 
