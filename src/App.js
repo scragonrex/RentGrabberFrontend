@@ -14,6 +14,8 @@ import Navbar from "./components/Navbar";
 import SProfile from "./pages/SProfile";
 import TProfile from "./pages/TProfile";
 import ViewTeacher from "./pages/ViewTeachers";
+import Map from "./pages/Map";
+
 
 const router = createBrowserRouter([ 
   { path: "*", Component: Root },
@@ -35,7 +37,8 @@ function Root() {
           <Route path='/signup' element={<SignUp/>} />
           <Route path='/student/profile' element={<SProfile/>} />
           <Route path='/teacher/profile' element={<TProfile/>} />
-           <Route path='/student/map' element={<ViewTeacher/>} /> 
+           <Route path='/student/viewTeacher' element={<ViewTeacher/>} /> 
+           <Route path='/student/map' element={<Map/>} /> 
         </Routes>
     </> 
   ); 
