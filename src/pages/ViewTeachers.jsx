@@ -26,36 +26,19 @@ const ViewTeacher = ({defaultCategory}) => {
     iconSize: [38, 38] // size of the icon
   });
 
-  const getTeacherLocation = async () => {
-    const response = await fetch(`${url}/teacher/getTeachers`,
-      {
-        method: "GET",
-        headers: { Authorization: `Bearer ${token}`, "Content-type": "application/json" }
-      });
-
-    const data = await response.json();
-    console.log("courses",courses)
-    dispatch(setTeachers(data.teacherArray));
-    setLocationList(data.locations);
-    const filteredTeachers = courses.filter((item)=>{
-      if(item.category===filteredCategory)
-      return item.teacher
-    });
-    console.log("filteredTeachers",filteredTeachers);
-    const test = data.teacherArray.map((item)=>(item.id))
-    console.log("teacherArray",test);
-    const locations =[];
-    filteredTeachers?.forEach((item) => {
-      if(test.includes(item._id))
-      {
-        console.log("name",item.name)
-        locations.push({longitude:item.longitude, latitude:item.latitude})}
-    });
-    console.log("locations",locations);
-
+  const filter = ()=>{
+    console.log("all teachers", teachersList)
+    let temp = teachersList.filter((item)=>(item.category===filteredCategory))
+    temp = temp.map((item)=>{
+      return {
+        name:item.name,
+        latitude:(Object?.values(item.latitude))[0],
+        longitude:(Object?.values(item.longitude))[0]
+      }
+    })
+    setFilteredlocation(temp);
   }
   useEffect(() => {
-    getTeacherLocation();
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(success, error);
     } else {
@@ -71,6 +54,7 @@ const ViewTeacher = ({defaultCategory}) => {
     function error() {
       console.log("Unable to retrieve your location");
     }
+    filter();
   }, [])
 
   return (
@@ -83,17 +67,17 @@ const ViewTeacher = ({defaultCategory}) => {
         <Marker position={[latitude, longitude]} icon={customIcon}>
           <Popup>Current Location</Popup>
         </Marker>
-        {/* {
-          locationList?.length > 0 && locationList.map((item, key) => {
-            const lat = Object?.values(item.latitude);
-            const lon = Object?.values(item.longitude);
-            console.log("lattitute",lat)
-            console.log("longitude",lon)
+        {
+          filteredlocation?.length > 0 && filteredlocation.map((item, key) => {
+            // const lat = Object?.values(item.latitude);
+            // const lon = Object?.values(item.longitude);
+            // console.log("lattitute",lat)
+            // console.log("longitude",lon)
             return(
-            <Marker position={[lat[0],lon[0]]} icon={customIcon}>
-              <Popup>teacher Location</Popup>
+            <Marker position={[item.latitude, item.longitude]} icon={customIcon}>
+              <Popup>{item.name}</Popup>
             </Marker>)})
-          } */}
+          }
           
       </MapContainer>
     </div>

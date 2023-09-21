@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import  "../styles/Home.css"
 import CourseMiniCard from '../components/CourseMiniCard'
 import { useDispatch, useSelector } from "react-redux";
-import { setCourses } from '../store/authSlice';
+import { setCourses, setTeachers } from '../store/authSlice';
 import ViewTeacher from './ViewTeachers';
 const Home = () => {
   const url = useSelector((state)=>state.auth.url); 
@@ -11,6 +11,7 @@ const Home = () => {
   const [categoryList, setCategoryList] = useState([]);
   const [categoryValue, setCategoryValue] = useState();
 
+  //Fetching all courses
   const getCourses = async()=>{
     const response = await fetch(`${url}/course/getCourses`,{
       method:"GET",
@@ -27,11 +28,24 @@ const Home = () => {
     }))
   }
 
+  //Fetching all teachers
+  const getTeachers = async () => {
+    const response = await fetch(`${url}/teacher/getTeachers`,
+      {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}`, "Content-type": "application/json" }
+      });
+
+    const data = await response.json();
+    if(data.status==="success") dispatch(setTeachers(data.teacherArray));
+  }
+
   const handleCategory = (item)=>{
     setCategoryValue(item)
   }
   useEffect(()=>{
     getCourses(); 
+    getTeachers();
   },[]);
 
   return (

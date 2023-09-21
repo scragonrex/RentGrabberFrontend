@@ -10,7 +10,7 @@ const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [hidePassword, setHidePassword] = useState(true);
   const [user, setUser] = useState({ name: "", email: "", password: "" });
-  const [userType, setUserType] = useState('student');
+  const [userType, setUserType] = useState('teacher');
   //-------------------Alert----------------------------//
   const [alert, setAlert] = useState({ open: false, message: "" });
   const handleAlertClose = (event, reason) => {

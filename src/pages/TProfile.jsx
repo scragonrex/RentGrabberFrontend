@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import '../styles/TProfile.css'
 import { AddCircle } from '@mui/icons-material';
-import { Box, Modal, useMediaQuery } from '@mui/material';
+import { Box, Checkbox, Modal, useMediaQuery } from '@mui/material';
 import { SelectMod } from '../components/Utils';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setLogout } from '../store/authSlice';
+import { useNavigate } from 'react-router-dom';
 
 const TProfile = () => {
   const user = useSelector((state)=>state.auth.user);
   const url = useSelector((state)=>state.auth.url);
   const token = useSelector((state)=>state.auth.token);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [userInfo, setUserInfo] = useState(); //Teacher info from backend
   const mobileView = useMediaQuery('(max-width:720px)')
   const [modalOpen, setModalOpen] = useState(false);
   const [categoryList, setCategoryList] = useState(['Science', 'Mathematics','Social Science', 'English', 'Computer Science', 'Hindi', 'Commerce']);
@@ -16,28 +21,31 @@ const TProfile = () => {
   const [categoryValue, setCategoryValue] = useState();
   const [classValue, setClassValue] = useState(1);
   const [courseName, setCourseName] = useState();
-  const [degree, setDegree] = useState();
+  const [category, setCategory] = useState();
   const [latitude,setLatitude]=useState(0);
   const [longitude,setLongitude]=useState(0);
-
+  const [isSend, setIsSend] = useState(true);
+  //Completing/Edit the profile
   const handleEditProfile = async()=>{   
-    console.log(degree, longitude, latitude);
+    console.log(categoryValue, longitude, latitude,isSend);
     const response = await fetch(`${url}/teacher/editProfile/${user._id}`,
     {
       method:"POST",
-      body:JSON.stringify({degree, latitude, longitude}),
+      body:JSON.stringify({categoryValue, latitude : latitude, longitude: longitude}),
       headers:{Authorization:`Bearer ${token}`, "Content-type":"application/json"}
     });
 
     const data = response.json(); 
   }
+
+  //Creating course
   const handleCourseSubmit = async()=>{
-    console.log(courseName, classValue, categoryValue);
+    console.log(courseName, classValue);
     console.log(user, token);
 
     const response = await fetch(`${url}/teacher/addCourse/${user._id}`,{
       method:"POST",
-      body:JSON.stringify({courseName, classValue, categoryValue}),
+      body:JSON.stringify({courseName, classValue}),
       headers:{Authorization:`Bearer ${token}`, "Content-type":"application/json"}
     });
 
@@ -55,7 +63,20 @@ const TProfile = () => {
     setCourseName(e.target.value)
   }
 
+  const handleLocationChange = (e)=>{
+    if(e.target.checked)
+     setIsSend(true);
+    else
+     setIsSend(false);
+    console.log(isSend)
+  }
+
+  const handleLogout = () => {
+    dispatch(setLogout())
+    navigate('/login')
+  }
   useEffect(() => {
+
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(success, error);
     } else {
@@ -80,20 +101,34 @@ const TProfile = () => {
         <p className="font-subHeading margin-bottom-2">MuscleGrabber</p>
         <p className="sideTags">Dashboard</p>
         <p className="sideTags">About Us</p>
-        <p className="sideTags">Logout </p>
+        <p className="sideTags" style={{cursor:"pointer"}} onClick={handleLogout}>Logout </p>
         <p className="sideTags">Settings</p>
       </div>
       <div className="overview">
+        <p className="font-heading">Hi {user?.name} </p>
         <p className="font-subHeading">Your overview</p>
         <div className="display-flex-row margin-top-2 justify-content-between">
-          <div className="box">Courses: 5</div>
+          <div className="box">Courses: {user ? user.coursesTaught?.length:"null"}</div>
           <div className="box">Student enrolled: 35</div>
           <div className="box">Average rating: 7/10</div>
         </div>
+        <div>Location: {user.longitude && Object?.values(user.longitude)}, {user.latitude && Object?.values(user.latitude)}</div>
+        <div>Cateory: { user?.category}</div>
         <div className="addBtn" >
         <AddCircle onClick={()=>setModalOpen(true)} sx={{ color: "rgb(6, 207, 106)", fontSize: "4rem" }}/>
         <div className="formContainer margin-top-2" >
-          <input type="text" className="inputCont" placeholder='Degree' value={degree} onChange={(e)=>setDegree(e.target.value)}/>
+          <Box sx={{ minWidth: 120, margin: mobileView ? "1rem 0" : "2rem 0" }}>
+              <SelectMod
+                title="Category"
+                options={categoryList}
+                ide="sm1"
+                onChange={handleCategoryChange}
+              >
+              </SelectMod>
+          </Box>
+          <div className='font-white'>
+            Use my current location <Checkbox onChange={handleLocationChange}/>
+          </div>
           <button className="btn" onClick={handleEditProfile}>Submit</button>
         </div>
         <Modal
@@ -111,15 +146,7 @@ const TProfile = () => {
               >
               </SelectMod>
           </Box>
-          <Box sx={{ minWidth: 120, margin: mobileView ? "1rem 0" : "2rem 0" }}>
-              <SelectMod
-                title="Category"
-                options={categoryList}
-                ide="sm1"
-                onChange={handleCategoryChange}
-              >
-              </SelectMod>
-          </Box>
+          
           <button className="btn" style={{ marginTop: "1rem" }} onClick={handleCourseSubmit}>Create</button>
         </div>
       </Modal>

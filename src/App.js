@@ -34,7 +34,7 @@ function Root() {
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<SignUp/>} />
           <Route path='/student/profile' element={<SProfile/>} />
-          <Route path='/teacher/profile' element={<TProfile/>} />
+          <Route path='/teacher/profile' element={isAuth ? <TProfile/> : <Navigate to='/login'/>} />
           {/* <Route path='/student/viewTeachers' element={<ViewTeacher/>} /> */}
         </Routes>
     </> 
