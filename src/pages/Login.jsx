@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { setLogin } from '../store/authSlice';
 import { Alert, CircularProgress, Snackbar, useMediaQuery } from '@mui/material';
 import { VisibilityOffRounded, VisibilityRounded } from '@mui/icons-material';
-
+import "../styles/Login.css"
 const Login = () => {
     const url = useSelector((state) => state.auth.url);
     const mobileView = useMediaQuery('(max-width:720px)');
@@ -14,7 +14,7 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [hidePassword, setHidePassword] = useState(true);
-    const [userType, setUserType] = useState('teacher');
+    const [userType, setUserType] = useState('');
     //-------------------Alert----------------------------//
     const [alert, setAlert] = useState({ open: false, message: "" });
     const handleAlertClose = (event, reason) => {
@@ -28,7 +28,10 @@ const Login = () => {
 
     const login = async (e) => {
         e.preventDefault();
-        console.log("logging")
+        if(userType===''){
+            setAlert({ open: true, message: "Select User Type" }); 
+            return;
+        }
         setIsLoading(true);
         const response = await fetch(`${url}/${userType}/login`,
             {
@@ -71,24 +74,27 @@ const Login = () => {
     }
     return (
         <div className="pageContainer">
-            <Snackbar open={alert.open} autoHideDuration={6000} onClose={handleAlertClose}
+            <img src="/assets/loginBg.jpg" alt="login" />
+            <Snackbar open={alert.open} autoHideDuration={4000} onClose={handleAlertClose}
                 anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
                 <Alert onClose={handleAlertClose} severity="error" variant='filled' sx={{ width: '100%' }}>
                     {alert.message}
                 </Alert>
             </Snackbar>
-
-            <div className="formContainer ">
-                <div className="display-flex-row gap-3">
-                <h1 className={`font-white ${mobileView ? "font-para" : "font-heading"}`}>Login as</h1>
+            <div className="loginSignupCont">
+                
+            <div className="formContainer">
+            <div className='display-flex-row align-item-center font-heading'> <img style={{width:"3rem"}} src="/assets/logo.png" alt="logo" /><span>Tutor</span><span className='font-blue'> Grabber</span></div>
+                <div className="display-flex-row gap-3 align-item-center">
+                <h1 className={`${mobileView ? "font-para" : "font-subHeading"}`}>Login as</h1>
                 <div className="display-flex-row gap-2">
-                    <div className={`userTag font-white font-subHeading ${userType === "student" && "active"}`} onClick={() => setUserType('student')}>Student</div>
-                    <div className={`userTag font-white font-subHeading ${userType === "teacher" && "active"}`} onClick={() => setUserType('teacher')}>Teacher</div>
+                    <div className={`userTag  font-subHeading ${userType === "student" && "active"}`} onClick={() => setUserType('student')}>Student</div>
+                    <div className={`userTag  font-subHeading ${userType === "teacher" && "active"}`} onClick={() => setUserType('teacher')}>Teacher</div>
                 </div>
                 </div>
-                <form onSubmit={login}>
-                    <div className='display-flex-col'>
-                        <label htmlFor="" className="font-white">Email</label>
+                <form onSubmit={login}  className='display-flex-col gap-3'>
+                    <div className=' display-flex-col gap-1'>
+                        <label >Email</label>
                         <input className='inputCont '
                             name='email'
                             value={email}
@@ -98,8 +104,8 @@ const Login = () => {
                         />
 
                     </div>
-                    <div className="display-flex-col" style={{ position: "relative" }}>
-                        <label className="font-white">Password</label>
+                    <div className=" display-flex-col gap-1" style={{ position: "relative" }}>
+                        <label>Password</label>
                         <input className='inputCont' required
                             name='password' value={password}
                             type={hidePassword ? "password" : "text"}
@@ -107,14 +113,15 @@ const Login = () => {
                             onChange={(e) => setPassword(e.target.value)}
 
                         />
-                        <div className='passwordIcon' onClick={() => setHidePassword(!hidePassword)}>{hidePassword ? <VisibilityOffRounded sx={{ color: "white" }} /> : <VisibilityRounded sx={{ color: "white" }} />}</div>
-
+                        <div className='passwordIcon' onClick={() => setHidePassword(!hidePassword)}>{hidePassword ? <VisibilityOffRounded sx={{ color: "black" }} /> : <VisibilityRounded sx={{ color: "black" }} />}</div>
                     </div>
-                    <button className='btn'
+                    <button className='btn margin-top-1'
                         type='submit'>{isLoading ? <CircularProgress style={{ color: "black", width: "20px", height: "20px" }} /> : "Login"}</button>
-                    <div className='font-white'>Dont have an Account?. <p className='font-link' onClick={() => navigate('/signup')}> SignUp</p>here!</div>
+                    <div className='margin-top-1'>Dont have an Account?. <p className='font-link' onClick={() => navigate('/signup')}> SignUp</p>here!</div>
                 </form>
             </div>
+            </div>
+            
         </div>
     )
 }

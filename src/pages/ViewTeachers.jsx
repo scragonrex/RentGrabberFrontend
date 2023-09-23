@@ -2,24 +2,35 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet"
 import { Icon } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "../styles/map.css"
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setTeachers } from "../store/authSlice";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 
-
-
-const ViewTeacher = ({defaultCategory}) => {
+const Map = (defaultCategory) => {
   const url = useSelector((state) => state.auth.url);
   const token = useSelector((state) => state.auth.token);
-  const courses = useSelector((state) => state.auth.courses);
-  const teachersList = useSelector((state) => state.auth.teachers);
-  const dispatch = useDispatch();
+  const teachersList = useSelector((state)=>state.auth.teachers);
+  const [filteredlocation, setFilteredlocation] = useState();
+  const [filteredCategory, setfilteredCategory] = useState(defaultCategory)
+  const [pos, setPos] = useState();
+  const [locationList, setLocationList] = useState([])
+  const [draggable, setDraggable] = useState(false)
+  const markerRef = useRef(null)
 
-  const [latitude, setLatitude] = useState(21.1458);
-  const [longitude, setLongitude] = useState(79.0882);
-  const [locationList, setLocationList] = useState([]);
-  const [filteredlocation, setFilteredlocation] = useState([]);
-  const [filteredCategory, setFilteredCategory] = useState(defaultCategory);
+  const eventHandlers = useMemo(
+    () => ({
+      dragend() {
+        const marker = markerRef.current
+        if (marker != null) {
+          setPos(marker.getLatLng())
+        }
+      },
+    }),
+    [],
+  )
+  const toggleDraggable = useCallback(() => {
+    setDraggable((d) => !d)
+  }, [])
+
 
   const customIcon = new Icon({
     iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
@@ -46,9 +57,10 @@ const ViewTeacher = ({defaultCategory}) => {
     }
 
     function success(position) {
-      setLatitude(position.coords.latitude);
-      setLongitude(position.coords.longitude);
-      console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+      setPos({
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      })
     }
 
     function error() {
@@ -57,15 +69,28 @@ const ViewTeacher = ({defaultCategory}) => {
     filter();
   }, [])
 
+  console.log(pos);
+
   return (
     <div>
-      <MapContainer center={[latitude, longitude]} zoom={13}>
+      {pos && <MapContainer center={pos} zoom={13}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+          url="https://www.google.cn/maps/vt?lyrs=m@189&gl=cn&x={x}&y={y}&z={z}"
         />
-        <Marker position={[latitude, longitude]} icon={customIcon}>
-          <Popup>Current Location</Popup>
+        <Marker
+          draggable={draggable}
+          eventHandlers={eventHandlers}
+          position={pos}
+          ref={markerRef}
+          icon={customIcon}>
+          <Popup minWidth={90}>
+            <span onClick={toggleDraggable}>
+              {draggable
+                ? 'Marker is draggable'
+                : 'Click here to make marker draggable'}
+            </span>
+          </Popup>
         </Marker>
         {
           filteredlocation?.length > 0 && filteredlocation.map((item, key) => {
@@ -79,9 +104,9 @@ const ViewTeacher = ({defaultCategory}) => {
             </Marker>)})
           }
           
-      </MapContainer>
+      </MapContainer>}
     </div>
   )
 }
 
-export default ViewTeacher;
+export default Map

@@ -14,6 +14,8 @@ import Navbar from "./components/Navbar";
 import SProfile from "./pages/SProfile";
 import TProfile from "./pages/TProfile";
 import ViewTeacher from "./pages/ViewTeachers";
+import Map from "./pages/Map";
+
 
 const router = createBrowserRouter([ 
   { path: "*", Component: Root },
@@ -28,7 +30,7 @@ function Root() {
   // const mobileView = useMediaQuery('(max-width:720px)');
   return (
     <>
-    {location.pathname!=='/teacher/profile' && <Navbar/>}
+    {(location.pathname!=='/teacher/profile' && location.pathname!=='/login' && location.pathname!=='/signup') && <Navbar/>}
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
