@@ -1,24 +1,27 @@
 .tProfile{
+    margin-top: 4rem;
     display: flex;
     flex-direction: row;
     min-height: 100svh;
+    border-top: 1px solid grey;
+    
 }
 .sidebar{
     display: flex;
     flex-direction: column;
     gap: 1rem;
     width: 15%;
-    border: 1px solid black;
     padding: 1rem;
 }
 .overview{
     width: 100%;
-    padding: 1rem;
+    padding: 1.5rem;
+    background-color: aliceblue;
 }
 .box{
-    padding: 1.6rem;
+    padding: 1rem;
     border-radius: 1rem;
-    box-shadow: 3px 0 5px 1px black;
+    background-color: white;
     min-width: 12rem;
     font-size: 1.8rem;
 }

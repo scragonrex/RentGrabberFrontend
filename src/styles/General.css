@@ -53,6 +53,9 @@
 .margin-top-1{
     margin-top: 1rem;
 }
+.margin-top-0{
+    margin-top: 0.5rem;
+}
 
 /* -------------------------------Fonts----------------------------------- */
 
@@ -91,7 +94,7 @@ font-size: 0.8rem;
     color: white;
 }
 .font-grey{
-    color:#878787;
+    color:#565353;
 }
 .text-align-center {
     text-align: center;
@@ -201,6 +204,7 @@ font-size: 0.8rem;
     background: #03A9F4;
     color: white;
     border: none;
+    
     border-radius: 0.3rem;
     font-size: 1rem;
     font-weight: bold;
@@ -252,6 +256,8 @@ font-size: 0.8rem;
     border-radius: 0.3rem;
     color:#03A9F4;
     transition: 0.3s;
+    font-size: 1rem;
+    font-weight: bold;
     cursor: pointer;
 }
 

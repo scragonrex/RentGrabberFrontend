@@ -30,7 +30,7 @@ function Root() {
   // const mobileView = useMediaQuery('(max-width:720px)');
   return (
     <>
-    {(location.pathname!=='/teacher/profile' && location.pathname!=='/login' && location.pathname!=='/signup') && <Navbar/>}
+    {( location.pathname!=='/login' && location.pathname!=='/signup') && <Navbar/>}
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />

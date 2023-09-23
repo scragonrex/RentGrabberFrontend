@@ -2,12 +2,13 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem 5rem 0.3rem 5rem;
+    padding: 1rem 1.5rem 0.3rem 1.5rem;
     box-sizing: border-box;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
+    gap: 2rem;
     transition: background-color 0.3s ease, backdrop-filter 0.3s ease; /* Add transitions for smooth effect */
     backdrop-filter: blur(0); /* Initial blur value when not scrolled */
     z-index: 1000;
@@ -30,13 +31,18 @@
 .imgLogo img{
     width: inherit;
 }
-
+.links{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    /* width: 100%; */
+}
 .links ul{
     list-style: none;
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 1rem;
+    gap: 0.5rem;
     margin: 0;
 }
 
@@ -48,16 +54,47 @@
 }
 
 .links ul li:hover{
-    background-color: #06cf6a;
+    background-color: #03A9F4;
     color: black;
     border-radius: 5px;
 }
 .links li.active{
-    background-color: #06cf6a;
+    background-color: #03A9F4;
     color: black;
     border-radius: 5px;
 }
-
+.userProfile{
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+}
+.dropdown{
+    height: 0;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    background-color: white;
+    width: 100%;
+    left: 0%;
+    top: 110%;
+    border-radius: 0.3rem;
+    box-shadow: 0px 4px 6px 0px #ccbaba;
+    overflow: hidden;
+    transition: 0.3s;
+}
+.dropdown.active{
+    height: 4.5rem;
+}
+.dropdown>div{
+    cursor: pointer;
+    padding: 0.5rem 0.6rem;
+}
+.dropdown>div:hover{
+    background-color:#e8f0fe;
+}
 @media only screen and (max-width: 730px)
 {
     .navbarContainer{
@@ -87,7 +124,7 @@
 
 }
 .tabs.active{
-    background-color: #06cf6a;
+    background-color: #03A9F4;
     color: black;
     border-radius: 10px 10px 0 0;
 }
