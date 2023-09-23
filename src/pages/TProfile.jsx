@@ -98,13 +98,13 @@ const TProfile = () => {
   return (
     <div className='tProfile'>
       <div className="sidebar">
-        <p className="sideTags">Dashboard</p>
-        <p className="sideTags">About Us</p>
+        <p className="sideTags">Home</p>
+        <p className="sideTags">Courses</p>
+        <p className="sideTags">Profile</p>
         <p className="sideTags" style={{ cursor: "pointer" }} onClick={handleLogout}>Logout </p>
-        <p className="sideTags">Settings</p>
       </div>
       <div className="overview">
-        <p className="font-heading">Home </p>
+        <p className="font-subHeading">Home </p>
         <div className="display-flex-row margin-top-2 justify-content-between">
           <div className="box">
             <p className='font-para font-grey'>Courses</p>
