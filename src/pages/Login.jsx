@@ -55,7 +55,7 @@ const Login = () => {
                 })
             )
             if (userType === "teacher")
-                navigate('/teacher/profile');
+                navigate('/teacher');
             else
                 navigate('/');
         }

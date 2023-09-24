@@ -12,9 +12,9 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import SProfile from "./pages/SProfile";
-import TProfile from "./pages/TProfile";
 import ViewTeacher from "./pages/ViewTeachers";
 import Map from "./pages/Map";
+import TAdmin from "./pages/teacher/TAdmin";
 
 
 const router = createBrowserRouter([ 
@@ -36,7 +36,7 @@ function Root() {
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<SignUp/>} />
           <Route path='/student/profile' element={<SProfile/>} />
-          <Route path='/teacher/profile' element={isAuth ? <TProfile/> : <Navigate to='/login'/>} />
+          <Route path='/teacher' element={isAuth ? <TAdmin/> : <Navigate to='/login'/>} />
           {/* <Route path='/student/viewTeachers' element={<ViewTeacher/>} /> */}
         </Routes>
     </> 

@@ -65,7 +65,7 @@ const Navbar = () => {
           {user ?
             <ClickAwayListener onClickAway={handleClickAway}>
               <div className='userProfile' onClick={handleMenu}>
-                <Avatar sx={{ bgcolor: "#03A9F4" }}>{user?.name[0]}</Avatar>
+                <Avatar sx={{ bgcolor: "#2196f3" }}>{user?.name[0]}</Avatar>
                 <div className="display-flex-col">
                   <p >{user?.name}</p>
                   <p className='font-grey font-small'>{user?.email}</p>

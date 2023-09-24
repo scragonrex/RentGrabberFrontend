@@ -6,6 +6,11 @@
     border-top: 1px solid grey;
     
 }
+.dashCont{
+    background-color:white;
+    padding: 1.2rem;
+    border-radius: 0.5rem;
+}
 .sidebar{
     display: flex;
     flex-direction: column;
@@ -13,20 +18,28 @@
     margin-top: 1rem;
     padding:1rem;
 }
-.sideTags{
-    padding: 0.4rem 1rem;
+.sideTabs{
+    padding: 0.8rem 1rem;
     cursor: pointer;
     transition: 0.2s;
     border-radius: 0.5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
 }
-.sideTags:hover{
+.sideTabs:hover{
+    background-color:#039ee4;
+    color: white;
+}
+.sideTabs.active{
     background-color:#039ee4;
     color: white;
 }
 .overview{
     width: 100%;
     padding: 1.5rem;
-    background-color: aliceblue;
+    background-color: #d8ebfc;
 }
 .box{
     padding: 1rem;

@@ -7,8 +7,9 @@
     width: 100%;
     border-radius: 0 0 5px 5px;
     cursor: pointer;
-    background-color: #161616;
+    background-color: white;
     overflow: auto;
+    box-shadow: 0 3px 3px 0 grey;
   }
   
  .expanded {
@@ -17,11 +18,10 @@
 
   .option{
   padding: 0.5rem 1rem;
-  color: white;
    cursor: pointer;
   }
   .option:hover{
-    background-color:#1f1f20;
+    background-color:#e8f0fe;
   }
   
   .expandIcon{
@@ -33,13 +33,15 @@
   }
 
   .selectCont{
-    padding: 1rem;
-    border: 1.5px solid rgb(6, 207, 106);
-    color: white;
+    padding: 0.7rem;
+    /* border: 1.5px solid #2196f3; */
+    background-color:#e8f0fe ;
+    color: grey;
     border-radius: 5px;
     cursor: pointer;
     display:flex;
     flex-direction:row;
     justify-content:space-between;
+    align-items: center;
   }
 

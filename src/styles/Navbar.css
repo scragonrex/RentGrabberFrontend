@@ -54,12 +54,12 @@
 }
 
 .links ul li:hover{
-    background-color: #03A9F4;
+    background-color: #2196f3;
     color: black;
     border-radius: 5px;
 }
 .links li.active{
-    background-color: #03A9F4;
+    background-color: #2196f3;
     color: black;
     border-radius: 5px;
 }
@@ -124,7 +124,7 @@
 
 }
 .tabs.active{
-    background-color: #03A9F4;
+    background-color: #2196f3;
     color: black;
     border-radius: 10px 10px 0 0;
 }
