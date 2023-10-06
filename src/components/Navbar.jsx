@@ -49,7 +49,7 @@ const Navbar = () => {
   return (
 
     <div className={`navbarContainer ${isScrolled ? 'blur' : ''}`}>
-      <div className='display-flex-row align-item-center font-subHeading'> <img style={{ width: "2.5rem" }} src="/assets/logo.png" alt="logo" /><span >Tutor</span><span className='font-blue'> Grabber</span>
+      <div className='display-flex-row align-item-center font-subHeading'> <img style={{ width: "2.5rem" }} src="/assets/logo.png" alt="logo" /><span >Rent</span><span className='font-blue'> Grabber</span>
         {location.pathname !== "/teacher/profile" && 
         <div className="links">
         <ul className='font-blue'>
